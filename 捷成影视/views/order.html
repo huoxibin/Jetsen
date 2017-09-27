@@ -1,0 +1,57 @@
+<ion-view view-title='订单详情' cache-view='false' can-swipe-back="false">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content class="has-footer">
+        <div class="pcolumn" style="padding:0px;">
+            <div class="list">
+                <div class="item">交易状态：<span ng-if="order.order.orderState==0" class="red">待审核</span>
+                    <span ng-if="order.order.orderState==1">已取消</span>
+                    <span ng-if="order.order.orderState==2">审核通过</span>
+                    <span ng-if="order.order.orderState==3">审核无效</span>
+                    <span ng-if="order.order.orderState==4">待付首款</span>
+                    <span ng-if="order.order.orderState==5">待发货</span>
+                    <span ng-if="order.order.orderState==6">已发货</span>
+                    <span ng-if="order.order.orderState==7">已付款</span>
+                    <span ng-if="order.order.orderState==8">订单完成</span></div>
+                <div class="item">订单号：{{order.order.id}}</div>
+                <div class="item">下单时间：{{order.order.createTime | date:"yyyy-MM-dd HH:mm:ss"}}</div>
+            </div>
+        </div>
+        <div class="pcolumn" style="padding:0px;">
+            <div class="list">
+                <div class="item">交易方式：线下</div>
+            </div>
+        </div>
+        <div class="pcolumn">
+            <div class="user_item_title">{{order.order.institutionName}}</div>
+            <div class="row pcolumn_bottom" ng-repeat="goods in order.orderGoodsList" ng-style="{'border-top':'1px solid #e8e8e8','padding-top':'5px'}">
+                <div class="col-33">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goods.icon}}" />
+                </div>
+                <div class="col-67 goods_item">
+                    <p class="bt">{{goods.objName}}</p>
+                    <p class="nr">{{goods.recommendation | substring:60}}</p>
+                    <p><span class="color3">{{goods.goodsType}}：</span><span class="red">&yen;议价</span></p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer removeMPB" ng-if="order.order.institutionId2==institutionId">
+        <div class="row removeMPB" ng-if="order.order.orderState==0">
+            <div class="button-bar">
+                <button class="button button-block button-assertive" ng-click="cancelOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">取消订单</button>
+                <button class="button button-block button-positive" ng-click="commitOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">审核通过</button>                
+            </div>
+        </div>
+        <button class="button button-block button-assertive" ng-if="order.order.orderState==3" ng-click="summitOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">重新提交</button>
+        <button class="button button-block button-assertive" ng-if="order.order.orderState==4" ng-click="paydownOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">付首款</button>
+        <button class="button button-block button-assertive" ng-if="order.order.orderState==6 || order.order.orderState==5" ng-click="payendOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">付尾款</button>
+    </div>
+
+    <div class="bar bar-footer removeMPB" ng-if="order.order.institutionId==institutionId">       
+        <button class="button button-block button-assertive" ng-if="order.order.orderState==2" ng-click="confirmOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">确认订单</button>
+        <button class="button button-block button-assertive" ng-if="order.order.orderState==5" ng-click="deliveryOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">订单发货</button>
+        <button class="button button-block button-assertive" ng-if="order.order.orderState==7" ng-click="finishOrder()" ng-style="{'margin-top':'0px','margin-bottom':'0px','border':'0px'}">结束订单</button>
+    </div>
+</ion-view>

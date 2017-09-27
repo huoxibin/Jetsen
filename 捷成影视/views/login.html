@@ -1,0 +1,14 @@
+<ion-view view-title="登录" hide-nav-bar="true" can-swipe-back="false">
+    <ion-content>
+        <div class="row responsive-sm padding">
+            <div class="col">
+                <div class="app-logo"><img src="img/logo.png"></div>
+                <div class="list list-inset">
+                    <label class="item item-input"><input class="ng-pristine ng-valid ng-touched" type="text" placeholder="帐号" ng-model="loguser.username"> </label>
+                    <label class="item item-input"><input class="ng-pristine ng-valid ng-touched" type="password" placeholder="密码" ng-model="loguser.password"> </label>
+                </div>
+                <div class="loginButton"><button class="button ion-unlocked button-block button-positive" ng-click="login(loguser);"> 登录 </button>  </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

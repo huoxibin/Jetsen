@@ -1,0 +1,50 @@
+<ion-view view-title=''>    
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content class="has-header">    
+        <div class="jstj">
+            <div class="row">
+                <div class="col col-25">
+                    <a ng-click="searchDate('')" class="a10">全部年份:</a>
+                </div>
+                <div class="col">
+                    <ul class="class_option">
+                        <li ng-repeat="item in publishDates">
+                        <a ng-click="searchDate('{{item.cwName}}');" class="{{publishDate==item.cwName?'selected':''}}">{{item.cwName}}</a>
+                        </li>                        
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <a ng-click="searchOrigin('')" class="a10">全部地区:</a>
+                </div>
+                <div class="col">
+                    <ul class="class_option">
+                        <li ng-repeat="item in origins"><a ng-click="searchOrigin('{{item.cwName}}');" class="{{origin==item.cwName?'selected':''}}">{{item.cwName}}</a></li>                       
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-if="classes.length>0">
+                <div class="col col-25"><a ng-click="searchLabel('')" class="a10">全部类型:</a></div>
+                <div class="col"><ul class="class_option">
+                    <li ng-repeat="item in classes"><a ng-click="searchLabel('{{item.name}}');" class="{{label==item.name?'selected':''}}">{{item.name}}</a></li>
+                </ul></div> 
+            </div>
+        </div>            
+        <div class="pcolumn" style="margin-top:10px;">            
+            <div class="row pcolumn_bottom"  ng-if="($index % 3)==0" ng-repeat="c in goodsList" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goods in goodsList" ng-if="$index>=(pindex) && $index<(pindex+3)" ng-click="goto('tab.view',{id:'{{goods.ID}}'})">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goods.ICON}}" /><a href="#/tab/view/{{goods.ID}}">{{goods.NAME}}</a>
+                </div>
+                <div class="col" ng-if="pindex==(goodsList.length-goodsList.length % 3) && goodsList.length % 3 > 0">&nbsp;</div>
+                <div class="col" ng-if="pindex==(goodsList.length-goodsList.length % 3) && goodsList.length % 3 == 1">&nbsp;</div>
+            </div>         
+        </div>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="moreDataCanBeLoaded()"></ion-infinite-scroll>
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-spinner class="topic-spinner ng-hide" ng-show="!goodsList" ng-style="{'top':getHalfHeight()+'px'}"></ion-spinner>
+    </ion-content>
+</ion-view>

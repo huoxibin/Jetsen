@@ -1,0 +1,35 @@
+<ion-view view-title="专柜">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="shop_top">
+            <div class="row">
+                <div class="col col-33 shop_logo"><img src="{{getConfig('ptp_file_url')}}{{shop.shopInfo.shopCode}}.jpg" /></div>
+                <div class="col col-67 shop_desc">{{shop.shopInfo.description}}</div>
+            </div>
+        </div>
+        <div class="bar tab_pane" >
+            <div class="button-bar">
+                <a class="button button-clear {{currentColumnId==pageColumn.column.id?' selected':''}}" ng-click="changeColumn('{{pageColumn.column.id}}')" 
+                    ng-repeat="pageColumn in shop.pageColumns" ng-if="pageColumn.column">{{pageColumn.column.columnName}}</a>
+            </div>
+        </div>
+        <div style="height:40px;">&nbsp;</div>
+        <div class="pcolumn" ng-repeat="pageColumn in shop.pageColumns" ng-init="columnGoodsList=pageColumn.columnGoods" ng-if="pageColumn.column.id==currentColumnId">            
+            <div class="row pcolumn_bottom" ng-repeat="columnGoods in columnGoodsList" ng-click="goto('tab.view',{id:'{{columnGoods.goodsId}}'})"
+                 ng-style="{'border-bottom':'1px solid #e8e8e8','margin-top':'10px','padding-top':'10px'}">
+                <div class="col col-33">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{columnGoods.icon}}" />
+                </div>
+                <div class="col col-67 goods_item">
+                    <p class="bt">{{columnGoods.goodsName}}</p>
+                    <p class="nr">{{columnGoods.comments}}</p>
+                    <span class="item-note">{{columnGoods.origin}}</span>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

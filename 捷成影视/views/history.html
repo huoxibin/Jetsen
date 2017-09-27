@@ -1,0 +1,20 @@
+<ion-view view-title='我的轨迹' cache-view='false' can-swipe-back="false">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="pcolumn" ng-if="historys.length>0" ng-repeat="goods in historys">
+            <div class="row pcolumn_bottom" ng-click="goto('tab.view',{'id':'{{goods.objId}}'})">
+                <div class="col-33">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goods.icon}}" />
+                </div>
+                <div class="col-67 goods_item">                
+                    <p class="bt">{{goods.objName}}</p><span class="item-note">{{goods.addTime | date:"yyyy-MM-dd"}}</span>
+                    <p class="nr">{{goods.institutionName}}</p>
+                    <p class="nr">{{goods.recommendation | substring:60}}</p>
+                    <p><span class="color3">{{goods.goodsType}}：</span><span class="red">&yen;议价</span></p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

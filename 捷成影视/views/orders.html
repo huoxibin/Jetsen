@@ -1,0 +1,44 @@
+<ion-view view-title='' cache-view='false'  can-swipe-back="false">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>    
+    <ion-content>
+        <div class="row user_icon" ng-click="goto('tab.user-info')" ng-if="isSale">
+            <div class="col">
+                <img ng-src="{{getConfig('ptp_file_url')}}{{loginId}}.jpg" /><br />{{saleName}}
+            </div>
+        </div>
+        <div class="bar tab_pane">
+            <div class="button-bar"><!--<i class="badge  badge-positive" style="font-size:1px;top:-8px;right:10px;">12</i>-->
+                <a class="button button-clear {{currentStatus==statusItem.value?'selected':''}} has-badge" ng-click="changeStatus('{{statusItem.value}}')" ng-repeat="statusItem in orderStatus">{{statusItem.name}}</a>
+            </div>
+        </div>         
+        <div style="height:40px;">&nbsp;</div>
+        <div class="pcolumn" ng-if="order.orderGoodsList.length>0" ng-repeat="order in orders.items" ng-click="goto('tab.user-order',{'id':'{{order.id}}','isSale':'{{isSale?1:0}}'})">
+            <div class="user_item_title"><span class="left">{{isSale?order.institution2Name:order.institutionName}}</span><span class="right">{{order.createTime | date:"yyyy-MM-dd HH:mm:ss"}}</span></div>
+            <div class="row pcolumn_bottom" ng-repeat="goods in order.orderGoodsList" ng-style="{'border-top':'1px solid #e8e8e8','padding-top':'5px'}">                
+                <div class="col-33">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goods.icon}}" />
+                </div>
+                <div class="col-67 goods_item">
+                    <p class="bt">{{goods.goodsName}}</p>
+                    <p class="nr">{{goods.recommendation | substring:60}}</p>
+                    <p><span class="color3">{{goods.goodsType}}：</span><span class="red">&yen;议价</span></p>
+                </div>
+            </div>
+            <div class="user_item_title" ng-style="{'border-top':'1px solid #e8e8e8','padding-top':'5px','padding-bottom':'20px'}"><span class="left">实付款：<span class="red">议价</span></span><span class="right red" ng-if="order.orderState==0">待审核</span>
+<span ng-if="order.orderState==1" class="right red" >已取消</span>
+<span ng-if="order.orderState==2" class="right red" >审核通过</span>
+<span ng-if="order.orderState==3" class="right red" >审核无效</span>
+<span ng-if="order.orderState==4" class="right red" >待付首款</span>
+<span ng-if="order.orderState==5" class="right red" >待发货</span>
+<span ng-if="order.orderState==6" class="right red" >已发货</span>
+<span ng-if="order.orderState==7" class="right red" >已付款</span>
+<span ng-if="order.orderState==8" class="right red" >订单完成</span></div>            
+        </div>
+        <div style="height:20px;" ng-if="isSale">&nbsp;</div>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="moreDataCanBeLoaded()"></ion-infinite-scroll>
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+    </ion-content>
+</ion-view>

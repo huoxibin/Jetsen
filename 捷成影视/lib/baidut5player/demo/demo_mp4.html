@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>Demo: play mp4 video</title>
+</head>
+<body>
+    <div id="playercontainer"></div>
+    <script type="text/javascript" src="../player/cyberplayer.min.js"></script>
+    <script type="text/javascript">
+        var player = cyberplayer("playercontainer").setup({
+        width : 854,
+        height : 480,
+        backcolor : "#FFFFFF",
+        stretching : "uniform",
+        file : "Kalimba.mp3",
+        autoStart : true,
+        repeat : false,
+        volume : 100,
+        controls : "over",
+		image:"Chrysanthemum.jpg",
+        });
+    </script>
+</body>
+</html>
+

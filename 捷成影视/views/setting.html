@@ -1,0 +1,13 @@
+<ion-view view-title='设置' can-swipe-back="false">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="pcolumn" style="padding:0px;">
+            <div class="list">
+                <div class="item">软件版本：{{currentVersion}}</div>
+                <div class="item" ng-click="showExitPop($event)" ng-if="hasExit">退出</div>             
+            </div>
+        </div>        
+    </ion-content>    
+</ion-view>

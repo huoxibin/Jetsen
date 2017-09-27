@@ -1,0 +1,31 @@
+    
+<ion-view view-title="" hide-nav-bar="true">
+    <ion-header-bar align-title="left" class="bar-light reply-new" keyboard-attach>
+        <label class="item-input-wrapper">
+            <i class="icon ion-ios-search placeholder-icon text-2x"></i>
+            <input class="ng-valid ng-dirty ng-touched ng-valid-parse" type="search" placeholder="搜索" ng-init="query=''" ng-model="query" style="width:95%">
+        </label><button class="button button-icon icon ion-ios-search" ng-click="search(query)"></button>
+    </ion-header-bar>
+    <ion-content class="has-tabs" >
+        <div class="pcolumn" ng-if="goodsList.length>0" ng-repeat="goods in goodsList">
+            <div class="row pcolumn_bottom"  ng-click="goto('tab.view',{id:'{{goods.ID}}'})">
+                <div class="col-33">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goods.ICON}}" />
+                </div>
+                <div class="col-67 goods_item">
+                    <p class="bt">{{goods.NAME}}</p>
+                    <p class="nr">{{goods.RECOMMENDATION | substring:60}}<br /><span class="item-note">{{goods.LABEL}}</span><br/></p>
+                    <p class="nr">{{goods.MAIN_ACTOR | substring:15}}</p>
+                </div>
+            </div>
+        </div>
+        <div class=""  ng-if="!(goodsList.length>0)" style="padding:20px;">
+            <div style="border-bottom:1px solid #e8e8e8;color:#808080;margin-bottom:10px;padding-bottom:5px;position:relative">最近搜索<div style="position:absolute;right:0px;top:0px;" ng-click="query='';claerHistory();">清空记录</div></div>
+            <div class="" ng-repeat="searchItem in searchHistorys" style="padding:3px;cursor:pointer;" ng-click="query='{{searchItem.keywords}}';search(query);">{{searchItem.keywords}}</div>
+        </div>
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh(query)">
+        </ion-refresher>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="moreDataCanBeLoaded()"></ion-infinite-scroll>
+        <ion-spinner class="topic-spinner ng-hide" ng-show="!goodsList" ng-style="{'top':getHalfHeight()+'px'}"></ion-spinner>
+    </ion-content>
+</ion-view>

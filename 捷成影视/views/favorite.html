@@ -1,0 +1,21 @@
+<ion-view view-title='我的收藏' cache-view='false'  can-swipe-back="false">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="pcolumn" ng-if="favorite.institutionList.length>0" ng-repeat="ins in favorite.institutionList">
+            <div class="user_item_title">{{ins.name}}</div>
+            <div class="row pcolumn_bottom" ng-repeat="goods in favorite.items" ng-if="ins.name==goods.institutionName" ng-style="{'border-top':'1px solid #e8e8e8','padding-top':'5px'}" 
+                  ng-click="goto('tab.view',{'id':'{{goods.objId}}'})" on-hold="deleteConfirm('{{goods.id}}')">
+                <div class="col-33">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goods.icon}}" />
+                </div>
+                <div class="col-67 goods_item">
+                    <p class="bt">{{goods.objName}}</p>                    
+                    <p class="nr">{{goods.recommendation | substring:60}}</p>
+                    <p><span class="color3">{{goods.goodsType}}：</span><span class="red">&yen;议价</span></p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

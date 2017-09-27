@@ -1,0 +1,18 @@
+<ion-view view-title="专柜">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <div class="pcolumn" ng-repeat="pageColumn in shops.columnItems" ng-init="columnGoodsList=pageColumn.columnGoods">
+            <div class="row pcolumn_bottom">
+                <div class="col col-50" ng-click="goto('tab.index-shop',{id:'{{pageColumn.column.columnUrl}}'})">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{pageColumn.column.columnUrl}}.jpg" reset-img/><br />{{pageColumn.column.columnName}}
+                </div>
+                <div class="col col-25" ng-repeat="columnGoods in columnGoodsList" ng-if="$index<2">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{columnGoods.icon}}" ng-click="goto('tab.view',{id:'{{columnGoods.goodsId}}'})" retseImg/><a href="#/tab/view/{{columnGoods.goodsId}}">{{columnGoods.goodsName}}</a>
+                </div>
+                <div class="col col-25" ng-if="columnGoodsList.length < 2">&nbsp;</div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

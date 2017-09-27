@@ -1,0 +1,29 @@
+<ion-view view-title='' hide-nav-bar="true" cache-view='false'>
+    <ion-content>
+        <div class="row user_icon" ng-click="goto('tab.user-info')">
+                    <div class="col">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{loginId}}.jpg" /><br />{{userName}}
+                    </div>
+        </div>
+        <div ng-if="isSale" class="row user_link order_link2" ng-style="{'margin-top':'0px'}" ng-click="goto('tab.user-orders',{'isSale':'1'})"><div class="col left">订单管理</div><div class="col-10 right">&nbsp;</div></div>
+
+        <div class="row user_link order_link"  ng-style="{'margin-top':'10px'}" ng-click="goto('tab.user-orders')"><div class="col left">我的订单</div><div class="col-10 right">&nbsp;</div></div>
+
+        <div class="row user_link cart_link" ng-click="goto('tab.user-cart')"><div class="col left">购物车</div><div class="col-10 right">&nbsp;</div></div>
+
+        <div class="row user_link favorite_link" ng-click="goto('tab.user-favorite')"><div class="col left">收藏</div><div class="col-10 right">&nbsp;</div></div>
+
+        <div class="row user_link history_link" ng-style="{'margin-top':'10px'}" ng-click="goto('tab.user-history')"><div class="col left">我的轨迹</div><div class="col-10 right">&nbsp;</div></div>
+        <div class="pcolumn removeMT">
+            <div class="row pcolumn_bottom">
+                <div class="col" ng-repeat="history in historys" ng-if="$index<4">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{history.icon}}" ng-click="goto('tab.view',{id:'{{history.objId}}'})" /><a href="#/tab/view/{{history.objId}}">{{history.objName}}</a>
+                </div>
+                <div class="col" ng-if="historys.length<4"></div>
+            </div>
+        </div>
+
+        <div class="row user_link setting_link" ng-style="{'margin-top':'10px','padding-top':'0px'}" ng-click="goto('tab.user-setting')"><div class="col left">设置</div><div class="col-10 right">&nbsp;</div></div>
+        <div style="height:100px"></div>
+    </ion-content>
+</ion-view>

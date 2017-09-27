@@ -1,0 +1,28 @@
+<ion-view view-title="行业动态">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader tab_pane" style="background:#f4f4f4;">        
+        <div class="button-bar">
+            <a class="button button-clear {{currentType=='行业动态'?'selected':''}}" ng-click="changeType('行业动态')" >行业动态</a>
+            <a class="button button-clear {{currentType=='行业报告'?'selected':''}}" ng-click="changeType('行业报告')" >行业报告</a>
+            <a class="button button-clear {{currentType=='交易快讯'?'selected':''}}" ng-click="changeType('交易快讯')">交易快讯</a>
+            <a class="button button-clear {{currentType=='交易会'?'selected':''}}" ng-click="changeType('交易会')">交易会</a>
+        </div>
+    </div>    
+    <ion-content class="has-tabs has-header has-subheader">
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="list">
+            <div class="item item-thumbnail-left" ng-repeat="message in messages" ng-click="goto('tab.msgview',{'id':'{{message.id}}'})">
+                <img ng-src="{{getConfig('ptp_file_url')}}{{message.photo}}" reset-img ng-if="message.photo.length>0">
+                {{message.title}}
+                <p class="summary">
+                    <span class="item-note ago" am-time-ago="message.createTime"></span>
+                </p>
+            </div>
+        </div>        
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="moreDataCanBeLoaded()"></ion-infinite-scroll>
+        <ion-spinner class="topic-spinner ng-hide" ng-show="!messages" ng-style="{'top':getHalfHeight()+'px'}"></ion-spinner>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,16 @@
+<ion-view view-title='我' cache-view='false' can-swipe-back="false">
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="pcolumn" style="padding:0px;">
+            <div class="list">
+                <div class="item">姓名：{{user.userName}}</div>
+                <div class="item">邮箱：{{user.email}}</div>
+                <div class="item">公司名称：{{user.institutionName}}</div>
+                <div class="item">帐号类型：{{userTypeName}}</div>
+                <div class="item"><button class="button ion-locked button-block button-assertive" ng-click="logout();"> 登出 </button></div>
+            </div>
+        </div>        
+    </ion-content>    
+</ion-view>

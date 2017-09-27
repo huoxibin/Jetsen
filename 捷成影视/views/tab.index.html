@@ -1,0 +1,93 @@
+<ion-view view-title=''>
+    <ion-nav-buttons side="left">
+        <ion-title><img src="img/logo.png" style="width:105px"/></ion-title>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-ios-search" ng-click="goto('tab.search')"></button>&nbsp;
+        <button class="button button-icon icon ion-ios-cart" ng-click="goto('tab.user-cart')"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-tabs has-header" scroll="true">
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="zt" ng-if="finished">           
+            <div class="bannar">              
+                <div class="bannar_img">
+                    <div class="" ng-if="firstPoster">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{firstPoster.posterContent}}" /><a href="#">{{firstPoster.comments}}</a>
+                    </div>
+                    <!--
+                    <ion-slide-box does-continue="true" show-pager="false" active-slide="true" slide-interval="4000">
+                        <ion-slide ng-repeat="poster in posters" ng-if="poster.posterType==0">
+                            <img src="{{getConfig('ptp_file_url')}}{{poster.posterContent}}" /><a href="#">{{poster.comments}}</a>
+                        </ion-slide>
+                    </ion-slide-box>-->
+                </div>
+                <div class="row classicon">
+                    <div class="col" ng-repeat="classItem in classes"><img ng-src="img/{{classItem.id}}.png" ng-click="goto('tab.class-view',{id:'{{classItem.id}}',name:'{{classItem.name}}'})" /><br /><a href="#tab/classview/{{classItem.id}}?name={{classItem.name}}">{{classItem.name}}</a></div>
+                </div>                   
+            </div>
+            <div class="pcolumn" ng-if="messages.length>0">
+                <div class="pcolumn_top" ng-click="goto('tab.msglist')">
+                    <span class="hydt">行业动态</span><a href="#tab/msglist"></a>
+                </div>
+                <div class="pcolumn_center row">
+                    <ul>
+                        <li ng-repeat="message in messages" ng-if="$index<4"><a ng-click="goto('tab.msgview',{id:'{{message.id}}'})">{{message.title}}</a></li>
+                    </ul>
+                </div><!--
+                <div class="row pcolumn_bottom">
+                    <div class="col"  ng-repeat="message in messages" ng-if="$index>1 && $index<4 && message.photo.length>0">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{message.photo}}"  ng-click="goto('tab.msgview',{id:'{{message.id}}'})" /><br /><a href="#tab/msgview/{{message.id}}">{{message.title}}</a>
+                    </div>                   
+                </div>-->
+            </div>
+            <div class="pcolumn"  ng-if="pageColumn.column.columnName=='专柜'" ng-repeat="pageColumn in pageColumns" ng-init="columnList=pageColumn.columnItems">
+                <div class="pcolumn_top" ng-click="goto('tab.shops')">
+                    <span class="zg">专柜</span><a href="#tab/shops"></a>                    
+                </div>
+                <div class="row pcolumn_bottom zg_bottom">
+                    <div class="col" ng-repeat="column in columnList" ng-if="$index<4">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{column.column.columnUrl}}.jpg"   ng-click="goto('tab.index-shop',{id:'{{column.column.columnUrl}}'})"/><a href="#tab/shop/{{column.column.columnUrl}}">{{column.column.columnName}}</a>
+                    </div>   
+                    <div class="col" ng-if="columnList.length<4 && columnList.length % 4 > 0"></div>
+                    <div class="col" ng-if="columnList.length<4 && columnList.length % 4 == 1"></div>
+                    <div class="col" ng-if="columnList.length<4 && columnList.length % 4 > 0 && columnList.length % 4 < 3"></div>                
+                </div>
+            </div>
+            <div class="pcolumn" ng-if="(pageColumn.column.columnIndex==1 || pageColumn.column.columnIndex==2 || pageColumn.column.columnIndex==3) && pageColumn.columnGoods.length>0" ng-repeat="pageColumn in pageColumns" ng-init="columnGoodsList=pageColumn.columnGoods" >
+                <div class="pcolumn_top" ng-click="goto('tab.class-view',{id:'{{pageColumn.column.columnClassid}}',name:'{{pageColumn.column.columnClassname}}'})">
+                    <span class="{{pageColumn.column.columnClassid}}_x">{{pageColumn.column.columnName}}</span><a></a>                   
+                </div>
+                <div class="row pcolumn_bottom"   ng-if="($index % 3)==0 && ($index/3)<2" ng-repeat="c in columnGoodsList" ng-init="pindex=$index">
+                    <div class="col" ng-repeat="columnGoods in columnGoodsList" ng-if="$index>=(pindex) && $index<(pindex+3)">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{columnGoods.icon}}"  ng-click="goto('tab.view',{id:'{{columnGoods.goodsId}}'})"  /><a href="#/tab/view/{{columnGoods.goodsId}}">{{columnGoods.goodsName}}</a>
+                    </div>
+                    <div class="col" ng-if="pindex==(columnGoodsList.length-columnGoodsList.length % 3) && columnGoodsList.length % 3 > 0"></div>
+                    <div class="col" ng-if="pindex==(columnGoodsList.length-columnGoodsList.length % 3) && columnGoodsList.length % 3 == 1"></div>
+                </div>               
+            </div>    
+            <div class="pcolumn" ng-if="pageColumn.column.columnName=='套餐推荐'" ng-repeat="pageColumn in pageColumns" ng-init="columnGoodsList=pageColumn.columnGoods">
+                <div class="pcolumn_top">
+                    <span class="tjtc">套餐推荐</span>
+                </div>
+                <div class="row pcolumn_bottom" ng-if="($index % 2)==0 && ($index/2)<2" ng-repeat="c in columnGoodsList" ng-init="pindex=$index">
+                    <div class="col" ng-repeat="columnGoods in columnGoodsList" ng-if="$index>=(pindex) && $index<(pindex+2)">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{columnGoods.icon2}}" ng-click="goto('tab.view',{id:'{{columnGoods.goodsId}}'})" /><a href="#/tab/view/{{columnGoods.goodsId}}">{{columnGoods.goodsName}}</a>
+                    </div>
+                    <div class="col" ng-if="pindex==(columnGoodsList.length-columnGoodsList.length % 2) && columnGoodsList.length % 2 > 0"></div>
+                </div>
+            </div>        
+            <div class="pcolumn"  ng-if="pageColumn.column.columnName=='热门推荐'" ng-repeat="pageColumn in pageColumns" ng-init="columnGoodsList=pageColumn.columnGoods"  >
+                <div class="pcolumn_top">
+                    <span class="tjtc">热门推荐</span> 
+                </div>
+                <div class="row pcolumn_bottom"  ng-if="($index % 2)==0 && ($index/2)<2" ng-repeat="c in columnGoodsList" ng-init="pindex=$index" >
+                    <div class="col" ng-repeat="columnGoods in columnGoodsList" ng-if="$index>=(pindex) && $index<(pindex+2)">
+                        <img ng-src="{{getConfig('ptp_file_url')}}{{columnGoods.icon2}}" ng-click="goto('tab.view',{id:'{{columnGoods.goodsId}}'})" /><a href="#/tab/view/{{columnGoods.goodsId}}">{{columnGoods.goodsName}}</a>
+                    </div>
+                    <div class="col" ng-if="pindex==(columnGoodsList.length-columnGoodsList.length % 2) && columnGoodsList.length % 2 > 0"></div>
+                </div>                
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

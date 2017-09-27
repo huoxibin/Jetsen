@@ -1,0 +1,134 @@
+<ion-view view-title=''>
+    <ion-nav-buttons side="left">
+        <a class="button button-icon button-clear ion-ios-arrow-back" ng-click="goback()"></a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-star-outline" ng-click="favorite()" ng-disabled="isSelfGoods || goods.isFavorite"></button>
+        <button class="button button-icon icon ion-ios-cart" ng-click="goto('tab.user-cart')"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <div class="view_info" ng-if="finished">
+            <div class="row info_top">
+                <div class="col-33" ng-if="playerType==1"><a href="{{getBaiduUrl(getFileUrl())}}"><img ng-src="{{getConfig('ptp_file_url')}}{{goods.goods.icon}}" /></a></div>
+                <div class="col-33" ng-if="playerType==0"><img ng-src="{{getConfig('ptp_file_url')}}{{goods.goods.icon}}" ng-click="playVideo()" /></div>
+                <div class="col-67">
+                    <h2>{{goods.goods.name}}</h2>
+                    <p><span>类别：</span><span>{{goods.goods.label}}</span></p>
+                    <p ng-if="goods.goods.type==0"><span>国家地区：</span><span>{{goods.goods.origin}}</span></p>
+                    <p ng-if="goods.goods.type==0"><span>语言：</span><span>{{goods.goods.language}}</span></p>
+                    <p ng-if="goods.goods.type==0"><span>分辨率：</span><span>{{goods.goods.resolution}}</span></p>
+                    <p><span class="span1">归属：</span><span class="span1">{{goods.goods.copyright}}</span></p>
+                    <p class="p1"><span>采购价格：</span><span class="red">议价</span></p>
+                </div>
+            </div>
+            <div class="row info_top_bottom">
+                <div class="col"><a href="#">收藏：</a><a class="color1" a href="#">{{goods.goods.favoriteNumber}}</a></div>
+                <div class="col"><a a href="#">浏览数：</a><a class="color1" a href="#">{{goods.goods.browseNumber}}</a></div>
+                <div class="col"><a a href="#">成交量：</a><a class="color1" a href="#">{{goods.goods.tradeNumber}}</a></div>
+            </div>
+        </div>
+        <div class="info_block" ng-if="finished">
+            <h2>基本信息</h2>
+            <div class="row" ng-if="goods.goods.type!=1">
+                <div class="col col-20">导演：</div>
+                <div class="col">{{goods.goods.director}}</div>
+            </div>
+            <div class="row" ng-if="goods.goods.type!=1">
+                <div class="col col-20">主演：</div>
+                <div class="col">{{goods.goods.mainActor}}</div>
+            </div>
+            <div class="row">
+                <div class="col col-20">简介：</div>
+                <div class="col">{{goods.goods.recommendation}}</div>
+            </div>
+            <div class="info_block_bottom" ng-if="goods.goods.type!=1">
+                <p><span>发行许可证：</span><a href="#">点击查询</a></p>
+                <p><span>可授权区域/场所/媒体：</span><a href="#">点击查询</a></p>
+            </div>
+        </div>
+        <div class="info_block" ng-if="objectBlocks.length>0 && goods.goods.type==0" ng-init="objectBlocks=getTypeObjects(10)">
+            <h2>正剧</h2>
+            <div class="row pcolumn_bottom" ng-if="($index % 4)==0" ng-repeat="c in objectBlocks" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goodsObject in objectBlocks" ng-if="$index>=(pindex) && $index<(pindex+4)">
+                    <a href="{{getBaiduUrl(getClipUrl(goodsObject.destFileName))}}" ng-if="playerType==1" style="height:auto;"><img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" /></a>
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" ng-click="playFile('{{goodsObject.destFileName}}')" ng-if="playerType==0" />
+                </div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 > 0"></div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 > 0 && objectBlocks.length % 4 < 3"></div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 == 1"></div>
+            </div>
+        </div>
+        <div class="info_block" ng-if="objectBlocks.length>0 && goods.goods.type==0" ng-init="objectBlocks=getTypeObjects(11)">
+            <h2>片花</h2>
+            <div class="row pcolumn_bottom" ng-if="($index % 4)==0" ng-repeat="c in objectBlocks" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goodsObject in objectBlocks" ng-if="$index>=(pindex) && $index<(pindex+4)">
+                    <a href="{{getBaiduUrl(getClipUrl(goodsObject.destFileName))}}" ng-if="playerType==1" style="height:auto;"><img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" /></a>
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" ng-click="playFile('{{goodsObject.destFileName}}')" ng-if="playerType==0" />
+                </div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 > 0"></div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 > 0 && objectBlocks.length % 4 < 3"></div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 == 1"></div>
+            </div>
+        </div>
+        <div class="info_block" ng-if="objectBlocks.length>0 && goods.goods.type==0" ng-init="objectBlocks=getTypeObjects(30)">
+            <h2>海报</h2>           
+            <div class="row pcolumn_bottom" ng-if="($index % 4)==0" ng-repeat="c in objectBlocks" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goodsObject in objectBlocks" ng-if="$index>=(pindex) && $index<(pindex+4)">
+                    <a href="{{getBaiduUrl(getClipUrl(goodsObject.destFileName))}}" ng-if="playerType==1" style="height:auto;"><img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" /></a>
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" ng-click="playFile('{{goodsObject.destFileName}}')" ng-if="playerType==0" />
+                </div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 > 0"></div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 > 0 && objectBlocks.length % 4 < 3"></div>
+                <div class="col" ng-if="pindex==(objectBlocks.length-objectBlocks.length % 4) && objectBlocks.length % 4 == 1"></div>
+            </div>
+        </div>
+        <div class="info_block" ng-if="goods.goodsObjects.length>0 && goods.goods.type==1">
+            <h2>套餐商品</h2>
+            <div class="row pcolumn_bottom" ng-if="($index % 4)==0" ng-repeat="c in goods.goodsObjects" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goodsObject in goods.goodsObjects" ng-if="$index>=(pindex) && $index<(pindex+4)">
+                    <a href="#/tab/view/{{goodsObject.objId}}" style="height:auto;"><img ng-src="{{getConfig('ptp_file_url')}}{{goodsObject.icon}}" /><br/>{{goodsObject.objName}}</a>
+                </div>
+                <div class="col" ng-if="pindex==(goods.goodsObjects.length-goods.goodsObjects.length % 4) && goods.goodsObjects.length % 4 > 0"></div>
+                <div class="col" ng-if="pindex==(goods.goodsObjects.length-goods.goodsObjects.length % 4) && goods.goodsObjects.length % 4 > 0 && goods.goodsObjects.length % 4 < 3"></div>
+                <div class="col" ng-if="pindex==(goods.goodsObjects.length-goods.goodsObjects.length % 4) && goods.goodsObjects.length % 4 == 1"></div>
+            </div>
+        </div>
+        <div class="info_block" ng-if="likeGoods.length>0">
+            <h2>相关推荐</h2>
+            <div class="row pcolumn_bottom" ng-if="$index==0" ng-repeat="c in likeGoods" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goodsItem in likeGoods" ng-if="$index>=(pindex) && $index<(pindex+3)">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goodsItem.ICON}}" ng-click="goto('tab.view',{id:'{{goodsItem.ID}}'})" /><a href="#/tab/view/{{goodsItem.ID}}">{{goodsItem.NAME}}</a>
+                </div>
+                <div class="col" ng-if="pindex==(likeGoods.length-likeGoods.length % 3) && likeGoods.length % 3 > 0">&nbsp;</div>
+                <div class="col" ng-if="pindex==(likeGoods.length-likeGoods.length % 3) && likeGoods.length % 3 == 1">&nbsp;</div>
+            </div>
+        </div>
+        <div class="info_block" ng-if="finished">
+            <h2>留言</h2>
+            <div class="item-input" style="padding-left:10px;padding-right:10px;">
+                <input class="ng-pristine ng-valid ng-touched" type="text" placeholder="说点什么。。。" ng-init="goodsMessage=''" ng-model="goodsMessage" style="border:1px solid #d8d8d8; background:#f4f4f4;margin-right:10px;">
+                <button class="button button-small button-assertive" ng-click="sendMessage(goodsMessage);goodsMessage=''"> 留言 </button>
+            </div>
+            <div class="list" ng-if="goosComments.length>0">
+                <div class="item item-avatar-left" ng-repeat="goodsComment in goosComments">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goodsComment.commentUser}}.jpg" />
+                    <div><a class="color2">{{goodsComment.commentUser}}</a><br /><a class="color3" am-time-ago="goodsComment.commentDate"></a></div>
+                    <div class="plnr" style="white-space: normal;">{{goodsComment.commentMsg}}</div>
+                </div>
+            </div>
+        </div>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="moreDataCanBeLoaded()"></ion-infinite-scroll>
+    </ion-content>
+    <ion-footer-bar class="bar-light reply-new removeMPB">
+        <div class="row removeMPB">
+            <div class="button-bar">
+                <button class="button button-block button-positive" ng-style="{'margin-top':'0px','margin-bottom':'0px'}" ng-click="favorite()" ng-disabled="isSelfGoods || goods.isFavorite">
+                    收藏
+                </button>
+                <button class="button button-block button-assertive" ng-style="{'margin-top':'0px','margin-bottom':'0px'}" ng-click="addToCart()" ng-disabled="isSelfGoods">
+                    加入购物车
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

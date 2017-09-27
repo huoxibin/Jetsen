@@ -1,0 +1,23 @@
+<ion-view view-title='分类'>
+    <ion-content class="has-header">
+        <div class="row class_list" ng-if="($index % 3)==0" ng-repeat="c in classes" ng-init="pindex=$index"  ng-style="{'margin-top':(pindex==0?10:0)+'px'}">
+            <div class="col" ng-repeat="classItem in classes" ng-if="$index>=(pindex) && $index<(pindex+3)" ng-style="{'border-right':($index % 3==2?0:1)+'px solid #e0e0e0','border-top':(pindex==0?0:1)+'px solid #e0e0e0'}">
+                <img ng-src="img/{{classItem.id}}.png" ng-click="goto('tab.class-view',{id:'{{classItem.id}}',name:'{{classItem.name}}'})" /><br /><a href="#tab/classview/{{classItem.id}}?name={{classItem.name}}">{{classItem.name}}</a>
+            </div>
+            <div class="col" ng-if="pindex==(classes.length-classes.length % 3) && classes.length % 3 > 0"></div>
+            <div class="col" ng-if="pindex==(classes.length-classes.length % 3) && classes.length % 3 == 1"></div>
+        </div>
+        <div class="pcolumn" ng-if="pageColumn.columnGoods.length>0" >
+            <div class="pcolumn_top">
+                <span class="tjtc">热门推荐</span>
+            </div>
+            <div class="row pcolumn_bottom" ng-if="($index % 2)==0 && ($index/2)<2" ng-repeat="c in pageColumn.columnGoods" ng-init="pindex=$index">
+                <div class="col" ng-repeat="goodsItem in pageColumn.columnGoods" ng-if="$index>=(pindex) && $index<(pindex+2)">
+                    <img ng-src="{{getConfig('ptp_file_url')}}{{goodsItem.icon2}}" ng-click="goto('tab.view',{id:'{{goodsItem.goodsId}}'})" /><a href="#/tab/view/{{goodsItem.goodsId}}">{{goodsItem.goodsName}}</a>
+                </div>
+                <div class="col" ng-if="pindex==(pageColumn.columnGoods.length-pageColumn.columnGoods.length % 2) && pageColumn.columnGoods.length % 2 > 0"></div>
+            </div>
+        </div>
+        <!--ion-spinner class="topic-spinner ng-hide" ng-show="!classes" ng-style="{'top':getHalfHeight()+'px'}"></!--ion-spinner-->
+    </ion-content>
+</ion-view>
